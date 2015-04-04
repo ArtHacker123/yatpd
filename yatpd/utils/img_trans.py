@@ -40,4 +40,4 @@ def img_trans(img_data, trans_type):
         return (img_gaussian_3 - img_gaussian_1,
                 img_gaussian_5 - img_gaussian_3)
     else:
-        raise Exception("Type %s trans_type not support" % trans_type)
+        raise Exception("Trans_type %s trans_type not support" % trans_type)
