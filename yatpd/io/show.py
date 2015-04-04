@@ -13,8 +13,8 @@ def imshow(window_title, img_data):
       title of the window
 
     img_data: numpy.ndarray
-      image data
+      data of image
     '''
-    cv2.show(window_tile, img_data)
+    cv2.imshow(window_tile, img_data)
     cv2.waitKey(0)
     cv2.destroyAllWindows()

@@ -42,7 +42,7 @@ def icf_train(img_data_list, channel_type, classifier):
         ret_flag = boost.train(img_feature_list, cv2.CV_ROW_SAMPLE,
                                img_flag_list)
         assert ret_flag is False
-        return boost
+        return boost, img_size
     elif classifier == 'svm':
         img_flag_list = np.array(img_flag_list, ntype=np.float32)
         img_feature_list = np.array(img_feature_list, ntype=np.float32)
@@ -52,6 +52,6 @@ def icf_train(img_data_list, channel_type, classifier):
                       gamma=0.5)
         svm = cv2.SVM()
         svm.train(img_feature_list, img_flag_list, params=params)
-        return svm
+        return svm, img_size
     else:
         raise Exception('Classifier doesn\'t support %s' % classifier)
