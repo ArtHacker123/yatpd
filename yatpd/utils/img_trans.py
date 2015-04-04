@@ -33,6 +33,7 @@ def img_trans(img_data, trans_type):
         return tuple(img_gabor_list)
     elif trans_type == 'DoG':
         img_gray = cv2.cvtColor(img_data, cv2.COLOR_BGR2GRAY)
+        # Temporary Magic number
         img_gaussian_1 = cv.GaussianBlur(img_gray, (1, 1), 0)
         img_gaussian_3 = cv.GaussianBlur(img_gray, (3, 3), 0)
         img_gaussian_5 = cv.GaussianBlur(img_gray, (5, 5), 0)
