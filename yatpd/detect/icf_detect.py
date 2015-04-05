@@ -2,9 +2,9 @@
 
 import cv2
 import numpy as np
-import .utils import timer
-import .utils import img_trans
-import .utils import draw
+import ..utils import timer
+import ..utils import img_trans
+import ..utils import draw
 
 
 @timer

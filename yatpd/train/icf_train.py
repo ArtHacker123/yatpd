@@ -2,8 +2,8 @@
 
 import cv2
 import numpy as np
-from .utils import timer
-from .utils import img_trans
+from ..utils import timer
+from ..utils import img_trans
 
 
 @timer

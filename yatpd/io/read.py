@@ -30,8 +30,8 @@ def flread(folder_path):
     file_name_list = os.listdir(folder_path)
     img_list = []
     for file_name in file_name_list:
-        file_path = os.path.join(folder_path, filename)
-        if lower(os.path.splitext(file_path)[1]) not in img_type:
+        file_path = os.path.join(folder_path, file_name)
+        if os.path.splitext(file_path)[1][1:].lower() not in img_type:
             continue
-        img_list.append(cv2.imread(file_path))
+        img_list.append(imread(file_path))
     return img_list

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import cv
+import cv2
+import os
 
 
 def imsave_list(img_data_list, folder_path):
@@ -14,9 +15,10 @@ def imsave_list(img_data_list, folder_path):
     folder_path: str
       path of folder
     '''
-    if os.path.exists(floder_path):
-        os.makedirs(floder_path)
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
     cnt = 0
-    for i in img_data_list:
-        file_path = os.path.join(floder_path, str(cnt) + '.jpg')
-        cv.SaveImage(file_path, img_data)
+    for img_data in img_data_list:
+        file_path = os.path.join(folder_path, str(cnt) + '.jpg')
+        cv2.imwrite(file_path, img_data)
+        cnt += 1
