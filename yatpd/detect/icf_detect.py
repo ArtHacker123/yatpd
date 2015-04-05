@@ -2,9 +2,9 @@
 
 import cv2
 import numpy as np
-import ..utils import timer
-import ..utils import img_trans
-import ..utils import draw
+from ..utils import timer
+from ..utils import img_trans
+from ..utils import draw
 
 
 @timer
@@ -18,26 +18,30 @@ def icf_detect(model, img_data, channel_type, model_size):
     img_data: np.ndarray
       data of image
     channel_type: str
-      gray | LUV | Gabor | DoG
+      Gray | LUV | Gabor | DoG
       same as channel_type of the models
     model_size: tuple
       Size of training data
     '''
     ret_img = np.array(img_data, copy=True)
     lower_img_data = cv2.pyrDown(img_data)
-    higher_img_data = cv2.cv2.pyrUp(img_data)
-    img_data_list = [(img_trans(lower_img_data, channel_type), 2, 'red'),
-                     (img_trans(img_data, channel_type), 1, 'blue'),
-                     (img_trans(higher_img_data, channel_type), 0.5, 'green')]
-    img_size = img_size.shape
+    higher_img_data = cv2.pyrUp(img_data)
+    img_data_list = [(lower_img_data, 2, 'red'),
+                     (img_data, 1, 'blue'),
+                     (higher_img_data, 0.5, 'green')]
     for img_data, rate, color in img_data_list:
-        for x in range(0, img_data[0] - model_size[0], 4):
-            for y in range(0, img_data[1] - model_size[1], 4):
-                img_feature = np.array()
+        img_size = img_data.shape
+        for x in range(0, img_size[0] - model_size[0], 16):
+            for y in range(0, img_size[1] - model_size[1], 16):
+                img_feature = np.array([], dtype=np.float32)
+                img_slice = np.array(img_data[x:x + model_size[0],
+                                              y:y + model_size[1],
+                                              :], copy=True)
+                channel_list = img_trans(img_slice, channel_type)
                 for channel in channel_list:
                     hog = cv2.HOGDescriptor()
                     hog_feature = hog.compute(channel)
-                    np.append(img_feature, hog_feature)
+                    img_feature = np.append(img_feature, hog_feature[:, 0])
                 flag = model.predict(img_feature)
                 if flag == 1:
                     def pos_trans(x):
