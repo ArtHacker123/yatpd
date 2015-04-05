@@ -15,7 +15,7 @@ def icf_detect(model, img_data, channel_type, model_size):
     ----------
     model: Object
       ICF model
-    img_data: np.narray
+    img_data: np.ndarray
       data of image
     channel_type: str
       gray | LUV | Gabor | DoG
