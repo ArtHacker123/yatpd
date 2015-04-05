@@ -29,24 +29,32 @@ def icf_detect(model, img_data, channel_type, model_size):
     img_data_list = [(lower_img_data, 2, 'red'),
                      (img_data, 1, 'blue'),
                      (higher_img_data, 0.5, 'green')]
+    hog = cv2.HOGDescriptor()
     for img_data, rate, color in img_data_list:
         img_size = img_data.shape
         channel_list = img_trans(img_data, channel_type)
+        pos_list = []
+        feature_list = []
         for x in range(0, img_size[0] - model_size[0], 8):
             for y in range(0, img_size[1] - model_size[1], 8):
+                pos_list.append((x, y))
                 img_feature = np.array([], dtype=np.float32)
                 for channel in channel_list:
-                    hog = cv2.HOGDescriptor()
                     channel_slice = channel[x:x + model_size[0],
                                             y:y + model_size[1]]
                     hog_feature = hog.compute(channel_slice)
                     img_feature = np.append(img_feature, hog_feature[:, 0])
-                flag = model.predict(img_feature)
-                if flag == 1:
-                    def pos_trans(x):
-                        return x * rate
-                    draw(ret_img, (pos_trans(x), pos_trans(y)),
-                         (pos_trans(x + model_size[0]),
-                          pos_trans(y + model_size[1])),
-                         color, 2)
+                feature_list.append(img_feature)
+        feature_list = np.array(feature_list, dtype=np.float32)
+        result_list = model.predict_all(feature_list)[:, 0]
+        print result_list
+        for flag, pos in zip(result_list, pos_list):
+            def pos_trans(x):
+                return x * rate
+            if flag > 0:
+                x, y = pos
+                draw(ret_img, (pos_trans(x), pos_trans(y)),
+                     (pos_trans(x + model_size[0]),
+                      pos_trans(y + model_size[1])),
+                     color, 2)
     return ret_img
