@@ -32,8 +32,8 @@ def icf_detect(model, img_data, channel_type, model_size):
     for img_data, rate, color in img_data_list:
         img_size = img_data.shape
         channel_list = img_trans(img_data, channel_type)
-        for x in range(0, img_size[0] - model_size[0], 16):
-            for y in range(0, img_size[1] - model_size[1], 16):
+        for x in range(0, img_size[0] - model_size[0], 8):
+            for y in range(0, img_size[1] - model_size[1], 8):
                 img_feature = np.array([], dtype=np.float32)
                 for channel in channel_list:
                     hog = cv2.HOGDescriptor()
