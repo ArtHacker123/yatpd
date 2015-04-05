@@ -12,9 +12,9 @@ def img_trans(img_data, trans_type):
       data of image
 
     trans_type: str
-      gray | LUV | Gabor | DoG
+      Gray | LUV | Gabor | DoG
     '''
-    if trans_type == 'gray':
+    if trans_type == 'Gray':
         return (cv2.cvtColor(img_data, cv2.COLOR_BGR2GRAY), )
     elif trans_type == 'LUV':
         img_luv = cv2.cvtColor(img_data, cv2.COLOR_BGR2LUV)

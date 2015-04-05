@@ -3,12 +3,14 @@
 import time
 
 
-def timer(func, *args, **kwds):
+def timer(func):
     '''A simple decorator to count time.
     '''
-    time_begin = time.time()
-    ret = func(*args, **kwds)
-    time_end = time.time()
-    time_cost = time_begin - time_end
-    print 'call %s cost %f second(s)' % (func.__name__, time_cost)
-    return ret
+    def wrapper(*args, **kwds):
+        time_begin = time.time()
+        ret = func(*args, **kwds)
+        time_end = time.time()
+        time_cost = time_begin - time_end
+        print 'call %s cost %f second(s)' % (func.__name__, time_cost)
+        return ret
+    return wrapper
