@@ -10,7 +10,7 @@ def timer(func):
         time_begin = time.time()
         ret = func(*args, **kwds)
         time_end = time.time()
-        time_cost = time_begin - time_end
+        time_cost = time_end - time_begin
         print 'call %s cost %f second(s)' % (func.__name__, time_cost)
         return ret
     return wrapper
