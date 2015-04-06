@@ -5,6 +5,7 @@ import numpy as np
 from ..utils import timer
 from ..utils import img_trans
 from ..utils import hog2hognmf
+from sklearn import svm
 
 
 @timer
@@ -55,12 +56,8 @@ def icf_train(img_data_list, channel_type, feature_type, classifier):
     elif classifier == 'svm':
         img_flag_list = np.array(img_flag_list, dtype=np.float32)
         img_feature_list = np.array(img_feature_list, dtype=np.float32)
-        params = dict(kernel_type=cv2.SVM_RBF,
-                      svm_type=cv2.SVM_C_SVC,
-                      C=1,
-                      gamma=0.5)
-        svm = cv2.SVM()
-        svm.train(img_feature_list, img_flag_list, params=params)
-        return svm, img_size
+        svm_model = svm.SVC(kernel='rbf')
+        svm_model.fit(img_feature_list, img_flag_list)
+        return svm_model, img_size
     else:
         raise Exception('Classifier doesn\'t support %s' % classifier)
