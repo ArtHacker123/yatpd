@@ -5,21 +5,28 @@ import numpy as np
 from ..utils import timer
 from ..utils import img_trans
 from ..utils import draw
+from ..utils import hog2hognmf
 
 
 @timer
-def icf_detect(model, img_data, channel_type, model_size):
+def icf_detect(model, img_data, channel_type, feature_type, model_size):
     ''' Detect a single image by using ICF model.
 
     Parameters
     ----------
     model: Object
       ICF model
+
     img_data: np.ndarray
       data of image
+
     channel_type: str
       Gray | LUV | Gabor | DoG
       same as channel_type of the models
+
+    feature_type: str
+      HOG | HOG-NMF
+
     model_size: tuple
       Size of training data
     '''
@@ -42,8 +49,15 @@ def icf_detect(model, img_data, channel_type, model_size):
                 for channel in channel_list:
                     channel_slice = channel[x:x + model_size[0],
                                             y:y + model_size[1]]
-                    hog_feature = hog.compute(channel_slice)
-                    img_feature = np.append(img_feature, hog_feature[:, 0])
+                    if feature_type == 'HOG' or feature_type == 'HOG-NMF':
+                        hog_feature = hog.compute(channel_slice)
+                        if feature_type == 'HOG':
+                            img_feature = np.append(img_feature,
+                                                    hog_feature[:, 0])
+                        else:
+                            img_feature = np.append(img_feature,
+                                                    hog2hognmf(hog_feature[:,
+                                                                           0]))
                 feature_list.append(img_feature)
         feature_list = np.array(feature_list, dtype=np.float32)
         result_list = model.predict_all(feature_list)[:, 0]

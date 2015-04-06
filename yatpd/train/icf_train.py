@@ -4,10 +4,11 @@ import cv2
 import numpy as np
 from ..utils import timer
 from ..utils import img_trans
+from ..utils import hog2hognmf
 
 
 @timer
-def icf_train(img_data_list, channel_type, classifier):
+def icf_train(img_data_list, channel_type, feature_type, classifier):
     ''' Use ICF to train a model.
     NOTE: the size of image should be same.
 
@@ -20,6 +21,9 @@ def icf_train(img_data_list, channel_type, classifier):
     channel_type: str
       Gray | LUV | Gabor | DoG
 
+    feature_type: str
+      HOG | HOG-NMF
+
     classifier: str
       boost | svm
     '''
@@ -29,10 +33,15 @@ def icf_train(img_data_list, channel_type, classifier):
     for img_data in img_data_list:
         channel_list = img_trans(img_data[0], channel_type)
         img_feature = np.array([], dtype=np.float32)
+        hog = cv2.HOGDescriptor()
         for channel in channel_list:
-            hog = cv2.HOGDescriptor()
-            hog_feature = hog.compute(channel)
-            img_feature = np.append(img_feature, hog_feature[:, 0])
+            if feature_type == 'HOG' or feature_type == 'HOG-NMF':
+                hog_feature = hog.compute(channel)
+                if feature_type == 'HOG':
+                    img_feature = np.append(img_feature, hog_feature[:, 0])
+                else:
+                    img_feature = np.append(img_feature,
+                                            hog2hognmf(hog_feature[:, 0]))
         img_feature_list.append(img_feature)
         img_flag_list.append(img_data[1])
     if classifier == 'boost':
