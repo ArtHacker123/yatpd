@@ -27,7 +27,7 @@ def icf_train(img_data_list, channel_type, feature_type, classifier):
       HOG | HOG-NMF
 
     classifier: str
-      boost | svm
+      AdaBoost | SVM
     '''
     img_size = img_data_list[0][0].shape
     img_feature_list = []
@@ -46,15 +46,13 @@ def icf_train(img_data_list, channel_type, feature_type, classifier):
                                             hog2hognmf(hog_feature[:, 0]))
         img_feature_list.append(img_feature)
         img_flag_list.append(img_data[1])
-    if classifier == 'boost':
-        img_flag_list = np.array(img_flag_list, dtype=np.int32)
-        img_feature_list = np.array(img_feature_list, dtype=np.float32)
+    img_flag_list = np.array(img_flag_list, dtype=np.int32)
+    img_feature_list = np.array(img_feature_list, dtype=np.float32)
+    if classifier == 'AdaBoost':
         boost_model = AdaBoostClassifier()
         boost_model.fit(img_feature_list, img_flag_list)
         return boost, img_size
-    elif classifier == 'svm':
-        img_flag_list = np.array(img_flag_list, dtype=np.int32)
-        img_feature_list = np.array(img_feature_list, dtype=np.float32)
+    elif classifier == 'SVM':
         svm_model = svm.SVC(kernel='rbf')
         svm_model.fit(img_feature_list, img_flag_list)
         return svm_model, img_size
