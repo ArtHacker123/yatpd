@@ -6,6 +6,7 @@ from ..utils import timer
 from ..utils import img_trans
 from ..utils import hog2hognmf
 from sklearn import svm
+from sklearn.ensemble import AdaBoostClassifier
 
 
 @timer
@@ -46,15 +47,13 @@ def icf_train(img_data_list, channel_type, feature_type, classifier):
         img_feature_list.append(img_feature)
         img_flag_list.append(img_data[1])
     if classifier == 'boost':
-        img_flag_list = np.array(img_flag_list, dtype=np.float32)
+        img_flag_list = np.array(img_flag_list, dtype=np.int32)
         img_feature_list = np.array(img_feature_list, dtype=np.float32)
-        boost = cv2.Boost()
-        ret_flag = boost.train(img_feature_list, cv2.CV_ROW_SAMPLE,
-                               img_flag_list)
-        assert ret_flag is False
+        boost_model = AdaBoostClassifier()
+        boost_model.fit(img_feature_list, img_flag_list)
         return boost, img_size
     elif classifier == 'svm':
-        img_flag_list = np.array(img_flag_list, dtype=np.float32)
+        img_flag_list = np.array(img_flag_list, dtype=np.int32)
         img_feature_list = np.array(img_feature_list, dtype=np.float32)
         svm_model = svm.SVC(kernel='rbf')
         svm_model.fit(img_feature_list, img_flag_list)

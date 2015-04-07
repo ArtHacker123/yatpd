@@ -6,6 +6,7 @@ from ..utils import timer
 from ..utils import img_trans
 from ..utils import draw
 from ..utils import hog2hognmf
+from sklearn import svm
 
 
 @timer
