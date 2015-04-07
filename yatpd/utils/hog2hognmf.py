@@ -22,11 +22,19 @@ def hog2hognmf(hog_feature):
     H = NMFmodel.components_
     hognmf_feature = np.array([], dtype=np.float32)
     for i in range(8):
-        W[:, i] /= np.sum(W[:, i])
+        _sum = np.sum(H[:, i])
+        if _sum == 0:
+            H[:, i] *= 0.
+        else:
+            H[:, i] /= _sum
         hognmf_feature = np.append(hognmf_feature,
-                                   W[:, i])
+                                   H[:, i])
     for i in range(500):
-        H[i, :] /= np.sum(H[i, :])
+        _sum = np.sum(W[i, :])
+        if _sum == 0:
+            W[i, :] *= 0.
+        else:
+            W[i, :] /= _sum
         hognmf_feature = np.append(hognmf_feature,
-                                   H[i, :])
+                                   W[i, :])
     return hognmf_feature

@@ -39,7 +39,7 @@ def icf_detect(model, img_data, channel_type, feature_type, model_size):
                      (img_data, 1, 'blue'),
                      (higher_img_data, 0.5, 'green')]
     hog = cv2.HOGDescriptor()
-    for img_data, rate, color in img_data_list:
+    for img_data, rate, color in img_data_list[:2]:
         img_size = img_data.shape
         channel_list = img_trans(img_data, channel_type)
         pos_list = []
@@ -63,10 +63,9 @@ def icf_detect(model, img_data, channel_type, feature_type, model_size):
                 feature_list.append(img_feature)
         feature_list = np.array(feature_list, dtype=np.float32)
         result_list = model.predict(feature_list)
-        print result_list
         for flag, pos in zip(result_list, pos_list):
             def pos_trans(x):
-                return x * rate
+                return int(x * rate)
             if flag > 0:
                 x, y = pos
                 draw(ret_img, (pos_trans(x), pos_trans(y)),

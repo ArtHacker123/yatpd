@@ -25,5 +25,5 @@ def draw(img_data, lt, rb, color, line_width):
                   'blue': (0, 0, 255)}
     if type(color) == str:
         color = color_dict[color]
-    cv2.rectangle(img_data, lt, rb,
+    cv2.rectangle(img_data, lt[::-1], rb[::-1],
                   color, line_width)
