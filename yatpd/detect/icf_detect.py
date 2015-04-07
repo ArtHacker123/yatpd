@@ -7,6 +7,7 @@ from ..utils import img_trans
 from ..utils import draw
 from ..utils import hog2hognmf
 from sklearn import svm
+from sklearn.ensemble import AdaBoostClassifier
 
 
 @timer
@@ -61,7 +62,7 @@ def icf_detect(model, img_data, channel_type, feature_type, model_size):
                                                                            0]))
                 feature_list.append(img_feature)
         feature_list = np.array(feature_list, dtype=np.float32)
-        result_list = model.predict_all(feature_list)[:, 0]
+        result_list = model.predict(feature_list)
         print result_list
         for flag, pos in zip(result_list, pos_list):
             def pos_trans(x):

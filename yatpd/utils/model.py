@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import cv2
+from sklearn.externals import joblib
 
 
 def save_model(model, file_path):
@@ -14,22 +14,16 @@ def save_model(model, file_path):
     file_path: str
       the path of file
     '''
-    model.save(file_path)
+    joblib.dump(model, file_path)
 
 
-def load_model(model_type, file_path):
+def load_model(file_path):
     '''Load model from a file.
 
     Parameters
     ----------
-    model_type: str
-      boost | svm
-
     file_path: str
       the path of file
     '''
-    model_create_dict = {'boost': cv2.Boost,
-                         'svm': cv2.SVM}
-    model = model_create_dict[model_type]()
-    model.load(file_path)
+    model = joblib.load(file_path)
     return model
