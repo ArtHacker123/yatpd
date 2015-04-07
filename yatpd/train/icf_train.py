@@ -51,7 +51,7 @@ def icf_train(img_data_list, channel_type, feature_type, classifier):
     if classifier == 'AdaBoost':
         boost_model = AdaBoostClassifier()
         boost_model.fit(img_feature_list, img_flag_list)
-        return boost, img_size
+        return boost_model, img_size
     elif classifier == 'SVM':
         svm_model = svm.SVC(kernel='rbf')
         svm_model.fit(img_feature_list, img_flag_list)
