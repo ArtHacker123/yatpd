@@ -11,8 +11,8 @@ from sklearn.ensemble import AdaBoostClassifier
 
 
 @timer
-def icf_detect(model, img_data, channel_type, feature_type, model_size):
-    ''' Detect a single image by using ICF model.
+def simple_detect(model, img_data, channel_type, feature_type, model_size):
+    ''' Detect a single image by using simple model.
 
     Parameters
     ----------
@@ -44,8 +44,8 @@ def icf_detect(model, img_data, channel_type, feature_type, model_size):
         channel_list = img_trans(img_data, channel_type)
         pos_list = []
         feature_list = []
-        for x in range(0, img_size[0] - model_size[0], 12):
-            for y in range(0, img_size[1] - model_size[1], 12):
+        for x in range(0, img_size[0] - model_size[0], 8):
+            for y in range(0, img_size[1] - model_size[1], 8):
                 pos_list.append((x, y))
                 img_feature = np.array([], dtype=np.float32)
                 for channel in channel_list:

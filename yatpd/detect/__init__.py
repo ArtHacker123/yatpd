@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-from icf_detect import icf_detect
+from simple_detect import simple_detect

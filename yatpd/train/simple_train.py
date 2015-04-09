@@ -10,8 +10,8 @@ from sklearn.ensemble import AdaBoostClassifier
 
 
 @timer
-def icf_train(img_data_list, channel_type, feature_type, classifier):
-    ''' Use ICF to train a model.
+def simple_train(img_data_list, channel_type, feature_type, classifier):
+    ''' Use HOG/HOG-NMF to train a model.
     NOTE: the size of image should be same.
 
     Parameters
@@ -49,7 +49,7 @@ def icf_train(img_data_list, channel_type, feature_type, classifier):
     img_flag_list = np.array(img_flag_list, dtype=np.int32)
     img_feature_list = np.array(img_feature_list, dtype=np.float32)
     if classifier == 'AdaBoost':
-        boost_model = AdaBoostClassifier()
+        boost_model = AdaBoostClassifier(n_estimators=800)
         boost_model.fit(img_feature_list, img_flag_list)
         return boost_model, img_size
     elif classifier == 'SVM':
