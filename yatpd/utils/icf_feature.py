@@ -5,7 +5,7 @@ from .img_trans import img_trans
 
 
 def hog2mats(img_data):
-    '''Get HOG(6 bins) in matrix.
+    '''Get HOG(6 bins, 6 channels) in matrix.
 
     Parameters
     ----------
@@ -38,6 +38,19 @@ def luv2mats(img_data):
     '''
     tuple_luv = img_trans(img_data, 'LUV')
     return [tuple_luv[0], tuple_luv[1], tuple_luv[2]]
+
+    
+def sobel2mat(img_data):
+    '''Get Sobel(1 channel) in matrix.
+
+    Parameters
+    ----------
+    img_data: np.ndarray
+      data of image
+    '''
+    gray_img = img_data(img_data, 'Gray')[0]
+    sobel_mats = cv2.Sobel(_, cv2.CV_8U, 1, 0)
+    return [sobel_mats]
 
 
 def get_icf_feature(img_data_list, feature_config=None):
