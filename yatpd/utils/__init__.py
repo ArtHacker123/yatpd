@@ -7,3 +7,4 @@ from draw import draw
 from random_cut import random_cut, random_cut_list
 from model import save_model, load_model
 from hog2hognmf import hog2hognmf
+from icf_feature import hog2mats, luv2mats, sobel2mat, get_icf_feature
