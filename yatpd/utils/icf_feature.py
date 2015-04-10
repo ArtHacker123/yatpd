@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import cv2
+from .img_trans import img_trans
 
 
-def hog2mat(img_data):
+def hog2mats(img_data):
     '''Get HOG(6 bins) in matrix.
 
     Parameters
@@ -25,6 +26,18 @@ def hog2mat(img_data):
             single_bin_mat[row, :] = single_bin_list[row * 15:(row + 1) * 15]
         hog_mat.append(single_bin_mat)
     return hog_mat
+
+
+def luv2mats(img_data):
+    '''Get LUV(3 channels) in matrix.
+
+    Parameters
+    ----------
+    img_data: np.ndarray
+      data of image
+    '''
+    tuple_luv = img_trans(img_data, 'LUV')
+    return [tuple_luv[0], tuple_luv[1], tuple_luv[2]]
 
 
 def get_icf_feature(img_data_list, feature_config=None):
