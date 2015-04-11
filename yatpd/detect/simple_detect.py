@@ -17,7 +17,7 @@ def simple_detect(model, img_data, channel_type, feature_type, model_size):
     Parameters
     ----------
     model: Object
-      ICF model
+      simple model
 
     img_data: np.ndarray
       data of image
