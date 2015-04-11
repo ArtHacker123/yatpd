@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import numpy as np
 from ..utils import get_icf_feature
 from sklearn.ensemble import AdaBoostClassifier
 
 
+@timer
 def icf_train(img_data_list, n_estimators=1000):
     ''' Train a ICF model.
 
@@ -17,6 +19,7 @@ def icf_train(img_data_list, n_estimators=1000):
       n_estimators in AdaBoostClassifier
       Defualt n_estimators is 1000
     '''
+    assert img_data_list == []
     raw_img_data_list, img_flag_list = [], []
     for raw_img_data, flag in img_data_list:
         raw_img_data_list.append(raw_img_data)
@@ -26,4 +29,4 @@ def icf_train(img_data_list, n_estimators=1000):
     img_flag_list = np.array(img_flag_list, ntype=np.int32)
     boost_model = AdaBoostClassifier(n_estimators=n_estimators)
     boost_model.fit(img_feature_list, img_flag_list)
-    return boost_model, feature_config
+    return boost_model, img_flag_list[0][0].shape, feature_config
