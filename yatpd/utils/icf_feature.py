@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import cv2
-from random import randint
+import numpy as np
 from .img_trans import img_trans
+from random import randint
 
 
 def hog2mats(img_data):
@@ -22,9 +23,10 @@ def hog2mats(img_data):
     hog_mat = []
     for shift in range(6):
         single_bin_list = hog_feature[shift::6]
-        single_bin_mat = np.zeros((15, 7), ntype=np.float32)
+        single_bin_mat = np.zeros((15, 7), dtype=np.float32)
         for row in range(15):
-            single_bin_mat[row, :] = single_bin_list[row * 15:(row + 1) * 15]
+            single_bin_mat[row, :] = single_bin_list[:, 0][row * 7:
+                                                           (row + 1) * 7]
         hog_mat.append(single_bin_mat)
     return hog_mat
 
@@ -49,8 +51,8 @@ def sobel2mat(img_data):
     img_data: np.ndarray
       Data of image.
     '''
-    gray_img = img_data(img_data, 'Gray')[0]
-    sobel_mats = cv2.Sobel(_, cv2.CV_8U, 1, 0)
+    gray_img = img_trans(img_data, 'Gray')[0]
+    sobel_mats = cv2.Sobel(gray_img, cv2.CV_8U, 1, 0)
     return [sobel_mats]
 
 
@@ -67,7 +69,7 @@ def get_icf_feature(img_data_list, feature_config=None):
       Position and size of rectangle feature.
       For None, function will generate a config list.
     '''
-    assert img_data_list == []
+    assert img_data_list != []
     img_raw_feature_list = []
     size_list = []
     for img_data in img_data_list:
@@ -101,11 +103,11 @@ def get_icf_feature(img_data_list, feature_config=None):
             cnt += 1
             if cnt >= 5000:
                 break
-    img_raw_feature_list = []
+    img_feature_list = []
     for img_raw_feature in img_raw_feature_list:
         img_feature = np.zeros(5000, dtype=np.float32)
         for index, config in enumerate(feature_config):
-            ch_now = img_raw_feature_list[config[0]]
+            ch_now = img_raw_feature[config[0]]
             img_feature[index] = ch_now[config[2][0], config[2][1]] - \
                 ch_now[config[1][0], config[1][1]]
         img_feature_list.append(img_feature)

@@ -3,6 +3,7 @@
 import cv2
 import numpy as np
 from ..utils import get_icf_feature
+from ..utils import timer
 
 
 @timer
