@@ -5,15 +5,15 @@ import numpy as np
 
 
 def imshow(window_title, img_data):
-    '''Show a single image
+    '''Show a single image.
 
     Parameters
     ----------
     window_title: str
-      title of the window
+      Title of the window.
 
     img_data: numpy.ndarray
-      data of image
+      Data of image.
     '''
     cv2.imshow(window_title, img_data)
     cv2.waitKey(0)

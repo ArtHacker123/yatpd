@@ -5,12 +5,12 @@ from sklearn.decomposition import NMF
 
 
 def hog2hognmf(hog_feature):
-    '''Transform HOG feature into HOG-NMF feature
+    '''Transform HOG feature into HOG-NMF feature.
 
     Parameters
     ----------
     hog_feature: np.ndarray
-      HOG feature
+      HOG feature.
     '''
     mat = np.zeros((500, 8), dtype=np.float32)
     NMFmodel = NMF(n_components=2, init='random', random_state=0)

@@ -11,7 +11,7 @@ def hog2mats(img_data):
     Parameters
     ----------
     img_data: np.ndarray
-      data of image
+      Data of image.
     '''
     hog = cv2.HOGDescriptor(_winSize=(64, 128),
                             _blockSize=(16, 16),
@@ -35,7 +35,7 @@ def luv2mats(img_data):
     Parameters
     ----------
     img_data: np.ndarray
-      data of image
+      Data of image.
     '''
     tuple_luv = img_trans(img_data, 'LUV')
     return [tuple_luv[0], tuple_luv[1], tuple_luv[2]]
@@ -47,7 +47,7 @@ def sobel2mat(img_data):
     Parameters
     ----------
     img_data: np.ndarray
-      data of image
+      Data of image.
     '''
     gray_img = img_data(img_data, 'Gray')[0]
     sobel_mats = cv2.Sobel(_, cv2.CV_8U, 1, 0)
@@ -61,10 +61,10 @@ def get_icf_feature(img_data_list, feature_config=None):
     Parameters
     ----------
     img_data_list: list
-      list of img_data
+      List of img_data.
 
     feature_config: list or None
-      position and size of rectangle feature.
+      Position and size of rectangle feature.
       For None, function will generate a config list.
     '''
     assert img_data_list == []

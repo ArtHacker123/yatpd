@@ -9,16 +9,16 @@ def draw(img_data, lt, rb, color, line_width):
     Parameters
     ----------
     img_data: np.narray
-      data of image
+      Data of image.
     lt: tuple
-      left top point of rectangle
+      Left top point of rectangle.
     rb: tuple
-      right bottom point of rectangle
+      Right bottom point of rectangle.
     color: tuple | str
       red | green | blue
       (R, G, B)
     line_width: int
-      width of line
+      Width of line.
     '''
     color_dict = {'red': (255, 0, 0),
                   'green': (0, 255, 0),

@@ -11,7 +11,7 @@ def imread(file_path):
     Parameters
     ----------
     file_path: str
-      file_path
+      Path of file.
     '''
     return cv2.imread(file_path)
 
@@ -22,7 +22,7 @@ def flread(folder_path):
     Parameters
     ----------
     folder_path: str
-      folder_path
+      Path of folder.
     '''
     img_type = ['bmp', 'dib', 'jpeg', 'jpg', 'jpe',
                 'png', 'pbm', 'pgm', 'ppm', 'sr',

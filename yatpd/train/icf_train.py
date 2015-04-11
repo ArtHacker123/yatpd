@@ -12,12 +12,12 @@ def icf_train(img_data_list, n_estimators=1000):
     Parameters
     ----------
     img_data_list: list of tuple
-      img_data_list is a list that consists of tuple like (img_data, flag).
+      Img_data_list is a list that consists of tuple like (img_data, flag).
       For flag, 1 stand for positive data, -1 stand for negative data.
 
     n_estimators: int
-      n_estimators in AdaBoostClassifier
-      Defualt n_estimators is 1000
+      The amount of estimators in AdaBoostClassifier.
+      Defualt n_estimators is 1000.
     '''
     assert img_data_list == []
     raw_img_data_list, img_flag_list = [], []

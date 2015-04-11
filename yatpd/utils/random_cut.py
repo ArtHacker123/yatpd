@@ -7,12 +7,12 @@ from random import randint
 
 
 def random_cut(img_data, cut_size):
-    '''Cut image in random position
+    '''Cut image in random position.
 
     Parameters
     ----------
     img_data: np.ndarray
-      data of image
+      Data of image.
 
     cut_size: tuple
       (height, width)
@@ -28,7 +28,7 @@ def random_cut(img_data, cut_size):
 
 
 def random_cut_list(img_data_list, cut_size):
-    '''Cut image in random position
+    '''Cut image in random position.
 
     Parameters
     ----------

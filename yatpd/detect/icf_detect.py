@@ -5,22 +5,23 @@ import numpy as np
 from ..utils import get_icf_feature
 
 
+@timer
 def icf_detect(model, img_data, model_size, feature_config):
     ''' Detect a single image by using ICF model.
 
     Parameters
     ----------
     model: Object
-      ICF model
+      ICF model.
 
     img_data: np.ndarray
-      data of image
+      Data of image.
 
     model_size: tuple
-      Size of training data
+      Size of training data.
 
     feature_config: list or None
-      position and size of rectangle feature.
+      Position and size of rectangle feature.
       For None, function will generate a config list.
     '''
     ret_img = np.array(img_data, copy=True)

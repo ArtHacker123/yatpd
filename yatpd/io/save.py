@@ -5,15 +5,15 @@ import os
 
 
 def imsave_list(img_data_list, folder_path):
-    '''Save images into a folder
+    '''Save images into a folder.
 
     Parameters
     ----------
     img_data_list: list
-      list of img_data
+      List of img_data.
 
     folder_path: str
-      path of folder
+      Path of folder.
     '''
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)

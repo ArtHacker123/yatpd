@@ -17,20 +17,20 @@ def simple_detect(model, img_data, channel_type, feature_type, model_size):
     Parameters
     ----------
     model: Object
-      simple model
+      Simple model.
 
     img_data: np.ndarray
-      data of image
+      Data of image.
 
     channel_type: str
       Gray | LUV | Gabor | DoG
-      same as channel_type of the models
+      Same as channel_type of the models.
 
     feature_type: str
       HOG | HOG-NMF
 
     model_size: tuple
-      Size of training data
+      Size of training data.
     '''
     ret_img = np.array(img_data, copy=True)
     lower_img_data = cv2.pyrDown(img_data)

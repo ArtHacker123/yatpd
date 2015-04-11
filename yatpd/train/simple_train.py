@@ -17,7 +17,7 @@ def simple_train(img_data_list, channel_type, feature_type, classifier):
     Parameters
     ----------
     img_data_list: list of tuple
-      img_data_list is a list that consists of tuple like (img_data, flag).
+      Img_data_list is a list that consists of tuple like (img_data, flag).
       For flag, 1 stand for positive data, -1 stand for negative data.
 
     channel_type: str

@@ -9,7 +9,7 @@ def img_trans(img_data, trans_type):
     Parameters
     ----------
     img_data: np.ndarray
-      data of image
+      Data of image.
 
     trans_type: str
       Gray | LUV | Gabor | DoG
