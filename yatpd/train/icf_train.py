@@ -8,7 +8,7 @@ from sklearn.ensemble import AdaBoostClassifier
 
 @timer
 def icf_train(img_data_list, n_estimators=1000):
-    ''' Train a ICF-like model.
+    ''' Train a ACF-like model.
 
     Parameters
     ----------
