@@ -9,12 +9,12 @@ from ..utils import draw
 
 @timer
 def icf_detect(model, img_data, model_size, feature_config):
-    ''' Detect a single image by using ICF model.
+    ''' Detect a single image by using ICF-like model.
 
     Parameters
     ----------
     model: Object
-      ICF model.
+      ICF-like model.
 
     img_data: np.ndarray
       Data of image.

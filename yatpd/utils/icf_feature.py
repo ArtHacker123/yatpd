@@ -57,7 +57,7 @@ def sobel2mat(img_data):
 
 
 def get_icf_feature(img_data_list, feature_config=None):
-    '''Get ICF feature.
+    '''Get ICF-like feature.
        Sum of random rectangle in gradient histogram(6 bins), grad. and LUV.
 
     Parameters
