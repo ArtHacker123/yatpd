@@ -38,7 +38,7 @@ def get_acf_sum(img_data):
     s_length, s_width = ceil(length / 4.), ceil(width / 4.)
     sum_data = np.zeros((s_length, s_width), dtype=np.float32)
     fix_img_data = np.zeros((s_length * 4, s_width * 4,
-                            dtyp=np.float32))
+                            dtype=np.float32))
     for x in range(0, length):
         fix_img_data[x, :width] = img_data[x, :]
     integral_data = cv2.integral(fix_img_data)
@@ -63,3 +63,17 @@ def get_acf_feature(img_feature_list):
     for img_data in img_data_list:
         # Pre-smoothing
         img_data = acf_smooth(img_data)
+        channel_list = luv2mats(img_data) + sobel2mat(img_data)
+        img_feature_mats_list = []
+        for channel in channel_list:
+            img_feature_mats_list.append(get_acf_sum(channel))
+        img_feature_mats_list += hog2mats(img_data)
+        # Post-smoothing
+        img_feature = np.array([], dtype=np.float32)
+        for img_feature_mats in img_feature_mats_list:
+            img_feature_mats = acf_smooth(img_feature_mats)
+            for i in range(img_feature_mats.shape[0]):
+                img_feature = np.append(img_feature,
+                                        img_feature_mats[i, :])
+        img_feature_list.append(img_feature)
+    return img_feature_list
