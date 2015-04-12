@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import cv2
 import numpy as np
+from math import ceil
 from .icf_feature import hog2mats, luv2mats, sobel2mat
 
 
@@ -24,6 +26,29 @@ def acf_smooth(img_data):
     return s_img_data
 
 
+def get_acf_sum(img_data):
+    '''Get sum of 4 * 4 matrix in a channel.
+
+    Parameters
+    ----------
+    img_data: np.ndarray
+      Data of image.
+    '''
+    length, width = img_data.shape
+    s_length, s_width = ceil(length / 4.), ceil(width / 4.)
+    sum_data = np.zeros((s_length, s_width), dtype=np.float32)
+    fix_img_data = np.zeros((s_length * 4, s_width * 4,
+                            dtyp=np.float32))
+    for x in range(0, length):
+        fix_img_data[x, :width] = img_data[x, :]
+    integral_data = cv2.integral(fix_img_data)
+    for x in range(0, length, 4):
+        for y in range(0, width, 4):
+            sum_data[x / 4, y / 4] = (integral_data[x + 4, y + 4] -
+                                      integral_data[x, y])
+    return sum_data
+
+
 def get_acf_feature(img_feature_list):
     '''Get ACF-like feature.
        Derivative feature from gradient histogram(6 bins), grad. and LUV.
@@ -34,5 +59,7 @@ def get_acf_feature(img_feature_list):
       List of img_data.
     '''
     assert img_data_list != []
+    img_feature_list = []
     for img_data in img_data_list:
         # Pre-smoothing
+        img_data = acf_smooth(img_data)
