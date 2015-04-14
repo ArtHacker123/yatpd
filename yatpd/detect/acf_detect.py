@@ -8,7 +8,7 @@ from ..utils import draw
 
 
 @timer
-def icf_detect(model, img_data, model_size):
+def acf_detect(model, img_data, model_size):
     ''' Detect a single image by using ACF-like model.
 
     Parameters
@@ -32,8 +32,8 @@ def icf_detect(model, img_data, model_size):
         img_size = img_data.shape
         pos_list = []
         img_feature_list = []
-        for x in range(0, img_size[0] - model_size[0], 4):
-            for y in range(0, img_size[1] - model_size[1], 4):
+        for x in range(0, img_size[0] - model_size[0], 8):
+            for y in range(0, img_size[1] - model_size[1], 8):
                 pos_list.append((x, y))
                 img_slice = img_data[x:x + model_size[0],
                                      y:y + model_size[1]]
