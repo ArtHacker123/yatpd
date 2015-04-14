@@ -20,9 +20,9 @@ def draw(img_data, lt, rb, color, line_width):
     line_width: int
       Width of line.
     '''
-    color_dict = {'red': (255, 0, 0),
+    color_dict = {'blue': (255, 0, 0),
                   'green': (0, 255, 0),
-                  'blue': (0, 0, 255)}
+                  'red': (0, 0, 255)}
     if type(color) == str:
         color = color_dict[color]
     cv2.rectangle(img_data, lt[::-1], rb[::-1],
