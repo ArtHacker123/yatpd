@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 from math import ceil
 from .icf_feature import hog2mats, luv2mats, sobel2mat
+from .img_trans import img_trans
 
 
 def acf_smooth(img_data):
@@ -14,15 +15,21 @@ def acf_smooth(img_data):
     img_data: np.ndarray
       Data of image.
     '''
+    if len(img_data.shape) == 3:
+        length, width, channel = img_data.shape
+        s_img_data = np.zeros((length, width, channel), dtype=np.float32)
+        for index in range(channel):
+            s_img_data[:, :, index] = acf_smooth(img_data[:, :, index])
+        return s_img_data
     length, width = img_data.shape
     s_img_data = np.zeros((length, width), dtype=np.float32)
     for x in range(0, length):
         s_img_data[x, 0] = img_data[x, 0]
         s_img_data[x, width - 1] = img_data[x, width - 1]
         for y in range(1, width - 1):
-            pre_s_img_data[x, y] = (img_data[x, y - 1] +
-                                    img_data[x, y] * 2 +
-                                    img_data[x, y + 1]) / 4.
+            s_img_data[x, y] = (img_data[x, y - 1] +
+                                img_data[x, y] * 2 +
+                                img_data[x, y + 1]) / 4.
     return s_img_data
 
 
@@ -37,8 +44,8 @@ def get_acf_sum(img_data):
     length, width = img_data.shape
     s_length, s_width = ceil(length / 4.), ceil(width / 4.)
     sum_data = np.zeros((s_length, s_width), dtype=np.float32)
-    fix_img_data = np.zeros((s_length * 4, s_width * 4,
-                            dtype=np.float32))
+    fix_img_data = np.zeros((s_length * 4, s_width * 4),
+                            dtype=np.float32)
     for x in range(0, length):
         fix_img_data[x, :width] = img_data[x, :]
     integral_data = cv2.integral(fix_img_data)
@@ -49,7 +56,7 @@ def get_acf_sum(img_data):
     return sum_data
 
 
-def get_acf_feature(img_feature_list):
+def get_acf_feature(img_data_list):
     '''Get ACF-like feature.
        Derivative feature from gradient histogram(6 bins), grad. and LUV.
 
@@ -67,7 +74,7 @@ def get_acf_feature(img_feature_list):
         img_feature_mats_list = []
         for channel in channel_list:
             img_feature_mats_list.append(get_acf_sum(channel))
-        img_feature_mats_list += hog2mats(img_data)
+        img_feature_mats_list += hog2mats(img_data.astype(np.uint8))
         # Post-smoothing
         img_feature = np.array([], dtype=np.float32)
         for img_feature_mats in img_feature_mats_list:
