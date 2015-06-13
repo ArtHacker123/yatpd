@@ -14,8 +14,8 @@ Implement some default image feature for pedestrians detecting in `yatpd.detect`
 
 Besides, you could find some small tools about image processing in `yatpd.train`, like:
 
-* Random cut image
-* HOG Feature to HOG-NMF Feature
+* Cut image into same size randomly
+* Convert HOG Feature to HOG-NMF Feature
 
 License
 ---------
